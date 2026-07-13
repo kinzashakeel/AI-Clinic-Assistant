@@ -1,0 +1,15 @@
+# Web framework
+fastapi==0.115.6
+
+# ASGI server used to run FastAPI in production and locally
+uvicorn[standard]==0.34.0
+
+# Data validation / settings management
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# Loads .env files for local development
+python-dotenv==1.0.1
+
+# Google Gemini API SDK (Google AI Studio)
+google-generativeai==0.8.3
