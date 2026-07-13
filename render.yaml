@@ -1,0 +1,45 @@
+# -----------------------------------------------------------------------
+# render.yaml
+#
+# Render "Blueprint" file. This lets Render auto-configure the service
+# when you connect this repo (Render detects render.yaml automatically),
+# instead of you clicking through every setting manually in the dashboard.
+#
+# You can still deploy without this file by configuring the same values
+# manually in the Render dashboard — this file just makes it repeatable
+# and version-controlled.
+# -----------------------------------------------------------------------
+
+services:
+  - type: web
+    name: ai-clinic-assistant-backend
+    runtime: python
+    plan: free
+    region: oregon
+    branch: main
+
+    # Python version Render will use to build this service.
+    # Must match what you developed/tested against.
+    pythonVersion: "3.12"
+
+    # Installs all dependencies listed in requirements.txt
+    buildCommand: pip install -r requirements.txt
+
+    # Starts the FastAPI app using Uvicorn.
+    # --host 0.0.0.0 is required so Render can route external traffic in.
+    # --port $PORT uses the port Render assigns dynamically at runtime.
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+    healthCheckPath: /health
+
+    envVars:
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false  # sync: false = you must set this manually in the Render dashboard (secret, not stored in this file)
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: APP_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://your-frontend.vercel.app
