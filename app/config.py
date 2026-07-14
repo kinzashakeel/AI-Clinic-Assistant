@@ -51,7 +51,7 @@ class Settings(BaseSettings):
 
     # --- Gemini (Google AI Studio) configuration ---
     GEMINI_API_KEY: str = ""  # required in production, validated below
-    GEMINI_MODEL: str = "gemini-2.0-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
 
     # --- CORS configuration ---
     # Comma-separated list of allowed origins, provided via env var so it
