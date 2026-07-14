@@ -18,6 +18,20 @@ Why this file exists:
     routers/. This keeps main.py short and easy to scan.
 """
 
+# --- Path fix for serverless environments (e.g. Vercel) ---
+# Some serverless runtimes load this file directly (e.g. as a standalone
+# "main" module) without automatically adding the project root to
+# sys.path. Since we use absolute imports like "from app.config import
+# ...", Python needs to know where the "app" package's parent directory
+# lives. This explicitly adds it, so imports resolve correctly no matter
+# how the platform invokes this file.
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
